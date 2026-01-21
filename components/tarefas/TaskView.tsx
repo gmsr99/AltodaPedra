@@ -13,6 +13,7 @@ import {
     defaultDropAnimationSideEffects,
     DropAnimation,
 } from "@dnd-kit/core";
+import { snapCenterToCursor } from "@dnd-kit/modifiers";
 import { useState, useEffect } from "react";
 import { useApp } from "@/context/AppContext";
 import { UserTaskCard } from "./UserTaskCard";
@@ -146,7 +147,7 @@ export function TaskView() {
                 )}
             </div>
 
-            <DragOverlay dropAnimation={dropAnimation}>
+            <DragOverlay dropAnimation={dropAnimation} modifiers={[snapCenterToCursor]}>
                 {activeTask ? <TaskPill task={activeTask} isLocked={false} /> : null}
             </DragOverlay>
         </DndContext>

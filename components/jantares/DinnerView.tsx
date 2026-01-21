@@ -10,6 +10,7 @@ import {
     useSensor,
     useSensors,
 } from "@dnd-kit/core";
+import { snapCenterToCursor } from "@dnd-kit/modifiers";
 import { useState } from "react";
 import { useApp } from "@/context/AppContext";
 import { DinnerCard } from "./DinnerCard";
@@ -115,7 +116,7 @@ export function DinnerView() {
                 )}
             </div>
 
-            <DragOverlay>
+            <DragOverlay modifiers={[snapCenterToCursor]}>
                 {activeUser ? (
                     <DraggableUser user={activeUser} isLocked={false} isDragging showName />
                 ) : null}
