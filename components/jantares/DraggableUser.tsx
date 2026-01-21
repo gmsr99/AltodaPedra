@@ -44,9 +44,9 @@ export function DraggableUser({
                     "flex items-center gap-2 px-3 py-2 rounded-xl touch-none transition-all duration-200 shrink-0",
                     user.color,
                     "text-white shadow-md",
-                    isCurrentlyDragging && "shadow-xl scale-110 z-50 opacity-90 rotate-2",
+                    isDragging ? "opacity-0" : isDraggingProp && "shadow-xl scale-110 z-50 opacity-90 rotate-2",
                     isLocked && "opacity-60 cursor-not-allowed",
-                    !isLocked && !isCurrentlyDragging && "cursor-grab active:cursor-grabbing hover:scale-105 hover:shadow-lg"
+                    !isLocked && !isDragging && !isDraggingProp && "cursor-grab active:cursor-grabbing hover:scale-105 hover:shadow-lg"
                 )}
             >
                 <span className="text-xs font-bold">
@@ -69,9 +69,9 @@ export function DraggableUser({
             className={clsx(
                 user.color,
                 "w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-md touch-none transition-all duration-200",
-                isCurrentlyDragging && "shadow-xl scale-110 z-50 opacity-90 rotate-3",
+                isDragging ? "opacity-0" : isDraggingProp && "shadow-xl scale-110 z-50 opacity-90 rotate-3",
                 isLocked && "opacity-60 cursor-not-allowed",
-                !isLocked && !isCurrentlyDragging && "cursor-grab active:cursor-grabbing hover:scale-105 hover:shadow-lg"
+                !isLocked && !isDragging && !isDraggingProp && "cursor-grab active:cursor-grabbing hover:scale-105 hover:shadow-lg"
             )}
         >
             {user.name.substring(0, 2).toUpperCase()}
