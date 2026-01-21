@@ -1,0 +1,22 @@
+{
+    "name": "Alto da Pedra",
+    "short_name": "Alto da Pedra",
+    "description": "Quadro branco digital para a casa",
+    "start_url": "/jantares",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#ffffff",
+    "icons": [
+        {
+            "src": "/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "orientation": "portrait"
+}
