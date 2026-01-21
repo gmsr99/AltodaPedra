@@ -18,15 +18,29 @@ export function PullToRefresh({ children, onRefresh, className }: PullToRefreshP
     const [isRefreshing, setIsRefreshing] = useState(false);
     const startY = useRef(0);
     const containerRef = useRef<HTMLDivElement>(null);
+    const isValidPull = useRef(false);
 
     const handleTouchStart = useCallback((e: React.TouchEvent) => {
+        // Don't start pull-to-refresh if touch started on a draggable element
+        const target = e.target as HTMLElement;
+        const isDraggable = target.closest('[data-rfd-draggable-id]') ||
+            target.closest('[data-dnd-kit-draggable]') ||
+            target.classList.contains('touch-none') ||
+            target.closest('.touch-none');
+
+        if (isDraggable) {
+            isValidPull.current = false;
+            return;
+        }
+
         if (containerRef.current?.scrollTop === 0) {
             startY.current = e.touches[0].clientY;
+            isValidPull.current = true;
         }
     }, []);
 
     const handleTouchMove = useCallback((e: React.TouchEvent) => {
-        if (startY.current === 0 || isRefreshing) return;
+        if (!isValidPull.current || startY.current === 0 || isRefreshing) return;
 
         const currentY = e.touches[0].clientY;
         const diff = currentY - startY.current;
@@ -44,6 +58,11 @@ export function PullToRefresh({ children, onRefresh, className }: PullToRefreshP
     }, [isRefreshing]);
 
     const handleTouchEnd = useCallback(async () => {
+        if (!isValidPull.current) {
+            isValidPull.current = false;
+            return;
+        }
+
         if (pullDistance >= PULL_THRESHOLD && !isRefreshing) {
             setIsRefreshing(true);
             setPullDistance(PULL_THRESHOLD);
@@ -58,6 +77,7 @@ export function PullToRefresh({ children, onRefresh, className }: PullToRefreshP
             setPullDistance(0);
         }
         startY.current = 0;
+        isValidPull.current = false;
     }, [pullDistance, isRefreshing, onRefresh]);
 
     const progress = Math.min(pullDistance / PULL_THRESHOLD, 1);
